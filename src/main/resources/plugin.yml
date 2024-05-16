@@ -1,0 +1,4 @@
+name: CubicNations
+version: '${version}'
+main: dev.thebjoredcraft.cubicnations.CubicNations
+api-version: '1.20'
