@@ -1,16 +1,17 @@
 package dev.thebjoredcraft.cubicnations;
 
-import dev.thebjoredcraft.cubicnations.manager.WhitelistManager;
+import dev.thebjoredcraft.craftcore.CraftCore;
+import dev.thebjoredcraft.cubicnations.manager.Runnable;
+import dev.thebjoredcraft.cubicnations.manager.ScoreboardManager;
+import dev.thebjoredcraft.cubicnations.manager.TimeManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class CubicNations extends JavaPlugin {
-    public static WhitelistManager whitelistManager;
     public static CubicNations instance;
-    public static Boolean started = false;
-    public static List<String> bypassWhitelistPlayers = new ArrayList<>();
+    public static TimeManager timeManager;
+    public static ScoreboardManager scoreboardManager;
+    public static Runnable runnable;
+    public static CraftCore craftCore;
 
     @Override
     public void onLoad() {
@@ -19,11 +20,13 @@ public final class CubicNations extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        whitelistManager = new WhitelistManager();
+        runnable = new Runnable(this);
+        timeManager = new TimeManager();
+        scoreboardManager = new ScoreboardManager();
 
-        bypassWhitelistPlayers.add("1c779cb1-3860-4e23-9cac-7f160b2acc61");
-        bypassWhitelistPlayers.add("9227bb5d-1e46-4c84-85ee-8aafcd2dbd75");
-        bypassWhitelistPlayers.add("9a2131e5-a07d-413e-ba0e-5344bcbcabf9");
+        CubicNations.getRunnable().start();
+        CubicNations.getScoreboardManager().start();
+        CubicNations.craftCore = CraftCore.getInstance();
 
         // Plugin startup logic
 
@@ -31,14 +34,28 @@ public final class CubicNations extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        CubicNations.getRunnable().stop();
+        CubicNations.getScoreboardManager().stop();
         // Plugin shutdown logic
-    }
-
-    public static WhitelistManager getWhitelistManager() {
-        return whitelistManager;
     }
 
     public static CubicNations getInstance() {
         return instance;
+    }
+
+    public static Runnable getRunnable() {
+        return runnable;
+    }
+
+    public static TimeManager getTimeManager() {
+        return timeManager;
+    }
+
+    public static CraftCore getCraftCoreInstance() {
+        return craftCore;
+    }
+
+    public static ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 }
